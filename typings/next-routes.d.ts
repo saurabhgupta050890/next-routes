@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { Server } from "next";
+import { NextServer } from 'next/dist/server/next';
 import { ComponentType } from "react";
-import { LinkState } from "next/link";
-import { SingletonRouter, EventChangeOptions } from "next/router";
+import {LinkProps as LinkState} from "next/link";
+import { SingletonRouter } from "next/router";
 
 export type HTTPHandler = (
   request: IncomingMessage,
@@ -13,21 +13,32 @@ export type RouteParams = {
   [k: string]: string | number;
 };
 
+
+
 export interface LinkProps extends LinkState {
   route: string;
   params?: RouteParams;
+  children?: React.ReactNode;
+}
+
+// Internal Next JS router interface
+export interface TransitionOptions {
+  shallow?: boolean;
+  locale?: string | false;
+  scroll?: boolean;
+  unstable_skipClientCache?: boolean;
 }
 
 export interface Router extends SingletonRouter {
   pushRoute(
     route: string,
     params?: RouteParams,
-    options?: EventChangeOptions
+    options?: TransitionOptions
   ): Promise<boolean>;
   replaceRoute(
     route: string,
     params?: RouteParams,
-    options?: EventChangeOptions
+    options?: TransitionOptions
   ): Promise<boolean>;
   prefetchRoute(
     route: string,
@@ -36,7 +47,7 @@ export interface Router extends SingletonRouter {
 }
 
 export interface Registry {
-  getRequestHandler(app: Server, custom?: HTTPHandler): HTTPHandler;
+  getRequestHandler(app: NextServer, custom?: HTTPHandler): HTTPHandler;
   add(name: string, pattern?: string, page?: string): this;
   add(pattern: string, page: string): this;
   add(options: { name: string; pattern?: string; page?: string }): this;
@@ -45,7 +56,7 @@ export interface Registry {
 }
 
 export default class Routes implements Registry {
-  getRequestHandler(app: Server, custom?: HTTPHandler): HTTPHandler;
+  getRequestHandler(app: NextServer, custom?: HTTPHandler): HTTPHandler;
   add(name: string, pattern?: string, page?: string): this;
   add(pattern: string, page: string): this;
   add(options: { name: string; pattern?: string; page?: string }): this;
