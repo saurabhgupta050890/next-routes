@@ -11,8 +11,8 @@ export default class App extends React.Component {
     return (
       <div>
         <button onClick={() => this.handleClick()}>Test router</button>
-        <Link route="settings" params={{ id: "123" }} passHref>
-          <a>Link test</a>
+        <Link route="settings" params={{ id: "123" }} passHref href="">
+          Link test
         </Link>
       </div>
     );
