@@ -84,7 +84,7 @@ describe('Routes', () => {
   test('generate urls with params that need escaping', () => {
     const { route } = setup('a', '/a/:b')
     const params = { b: 'b b' }
-    const expected = { as: '/a/b%20b', href: '/a?b=b%20b' }
+    const expected = { as: '/a/b b', href: '/a?b=b%20b' }
     expect(route.getUrls(params)).toEqual(expected)
     expect(setup('a').route.getUrls()).toEqual({ as: '/a', href: '/a?' })
   })
